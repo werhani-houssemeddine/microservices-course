@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product & Order Service API Documentation</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #2563eb;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #06b6d4;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f1f5f9;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+        
+        .service-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .service-header {
+            background-color: var(--secondary);
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .endpoint {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 20px;
+        }
+        
+        .endpoint:last-child {
+            border-bottom: none;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .get { background-color: var(--success); }
+        .post { background-color: var(--primary); }
+        .put { background-color: var(--warning); }
+        .delete { background-color: var(--danger); }
+        
+        .path {
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .description {
+            margin: 15px 0;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            margin: 20px 0 10px;
+            color: var(--secondary);
+        }
+        
+        .request-response {
+            background-color: #f8fafc;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .params-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .params-table th, .params-table td {
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .params-table th {
+            background-color: #f1f5f9;
+        }
+        
+        .status-codes {
+            margin: 15px 0;
+        }
+        
+        .status-code {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+        }
+        
+        .success { background-color: #d1fae5; color: #065f46; }
+        .error { background-color: #fee2e2; color: #991b1b; }
+        .redirect { background-color: #dbeafe; color: #1e40af; }
+        
+        .note {
+            background-color: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Product & Order Service API</h1>
+            <p>Comprehensive documentation for managing products and orders</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="note">
+            <strong>Authentication Note:</strong> All endpoints require a <code>User-Id</code> header with the user's ID for authorization.
+        </div>
+        
+        <div class="service-section">
+            <div class="service-header">Health Check</div>
+            
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="path">/api/products/health</span>
+                </div>
+                <div class="description">
+                    Check if the service is running
+                </div>
+                <div class="section-title">Response</div>
+                <div class="request-response">{
+  "status": "UP"
+}</div>
+                <div class="status-codes">
+                    <span class="status-code success">200 OK</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="service-section">
+            <div class="service-header">Product Management</div>
+            
+            <!-- Create Product -->
+            <div class="endpoint">
+                <div>
+                    <span class="method post">POST</span>
+                    <span class="path">/api/products/new</span>
+                </div>
+                <div class="description">
+                    Create a new product
+                </div>
+                <div class="section-title">Headers</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>User-Id</td>
+                        <td>Yes</td>
+                        <td>ID of the product owner</td>
+                    </tr>
+                </table>
+                <div class="section-title">Request Body</div>
+                <div class="request-response">{
+  "name": "Product Name",
+  "price": 19.99,
+  "description": "Product description",
+  "stock": 100,
+  "image": "base64_encoded_image_or_url"
+}</div>
+                <div class="section-title">Response</div>
+                <div class="request-response">{
+  "id": 1,
+  "name": "Product Name",
+  "price": 19.99,
+  "description": "Product description",
+  "stock": 100,
+  "owner_id": 123,
+  "image": "base64_encoded_image_or_url",
+  "created_at": "2023-01-01T00:00:00.000Z",
+  "updated_at": "2023-01-01T00:00:00.000Z"
+}</div>
+                <div class="status-codes">
+                    <span class="status-code success">201 Created</span>
+                    <span class="status-code error">400 Bad Request</span>
+                </div>
+            </div>
+            
+            <!-- Get All Products -->
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="path">/api/products/all</span>
+                </div>
+                <div class="description">
+                    Get all products except those owned by the current user
+                </div>
+                <div class="section-title">Headers</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>User-Id</td>
+                        <td>Yes</td>
+                        <td>Current user's ID</td>
+                    </tr>
+                </table>
+                <div class="section-title">Response</div>
+                <div class="request-response">[
+  {
+    "id": 1,
+    "name": "Product 1",
+    "price": 19.99,
+    "description": "Description 1",
+    "stock": 100,
+    "owner_id": 123,
+    "image": "image_url_1",
+    "created_at": "2023-01-01T00:00:00.000Z",
+    "updated_at": "2023-01-01T00:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "name": "Product 2",
+    "price": 29.99,
+    "description": "Description 2",
+    "stock": 50,
+    "owner_id": 456,
+    "image": "image_url_2",
+    "created_at": "2023-01-01T00:00:00.000Z",
+    "updated_at": "2023-01-01T00:00:00.000Z"
+  }
+]</div>
+                <div class="status-codes">
+                    <span class="status-code success">200 OK</span>
+                </div>
+            </div>
+            
+            <!-- Get My Products -->
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="path">/api/products/my-products</span>
+                </div>
+                <div class="description">
+                    Get all products owned by the current user
+                </div>
+                <div class="section-title">Headers</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>User-Id</td>
+                        <td>Yes</td>
+                        <td>Current user's ID</td>
+                    </tr>
+                </table>
+                <div class="section-title">Response</div>
+                <div class="request-response">[
+  {
+    "id": 1,
+    "name": "My Product",
+    "price": 19.99,
+    "description": "My Description",
+    "stock": 100,
+    "owner_id": 123,
+    "image": "my_image_url",
+    "created_at": "2023-01-01T00:00:00.000Z",
+    "updated_at": "2023-01-01T00:00:00.000Z"
+  }
+]</div>
+                <div class="status-codes">
+                    <span class="status-code success">200 OK</span>
+                </div>
+            </div>
+            
+            <!-- Get Product by ID -->
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="path">/api/products/{product_id}</span>
+                </div>
+                <div class="description">
+                    Get product details by ID
+                </div>
+                <div class="section-title">Path Parameters</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>product_id</td>
+                        <td>integer</td>
+                        <td>ID of the product to retrieve</td>
+                    </tr>
+                </table>
+                <div class="section-title">Response</div>
+                <div class="request-response">{
+  "id": 1,
+  "name": "Product Name",
+  "price": 19.99,
+  "description": "Product description",
+  "stock": 100,
+  "owner_id": 123,
+  "image": "image_url",
+  "created_at": "2023-01-01T00:00:00.000Z",
+  "updated_at": "2023-01-01T00:00:00.000Z"
+}</div>
+                <div class="status-codes">
+                    <span class="status-code success">200 OK</span>
+                    <span class="status-code error">404 Not Found</span>
+                </div>
+            </div>
+            
+            <!-- Update Product -->
+            <div class="endpoint">
+                <div>
+                    <span class="method put">PUT</span>
+                    <span class="path">/api/products/{product_id}</span>
+                </div>
+                <div class="description">
+                    Update product details
+                </div>
+                <div class="section-title">Path Parameters</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>product_id</td>
+                        <td>integer</td>
+                        <td>ID of the product to update</td>
+                    </tr>
+                </table>
+                <div class="section-title">Request Body</div>
+                <div class="request-response">{
+  "name": "Updated Name",
+  "price": 29.99,
+  "description": "Updated description",
+  "stock": 50,
+  "image": "updated_image_url"
+}</div>
+                <div class="section-title">Response</div>
+                <div class="request-response">{
+  "id": 1,
+  "name": "Updated Name",
+  "price": 29.99,
+  "description": "Updated description",
+  "stock": 50,
+  "owner_id": 123,
+  "image": "updated_image_url",
+  "created_at": "2023-01-01T00:00:00.000Z",
+  "updated_at": "2023-01-02T00:00:00.000Z"
+}</div>
+                <div class="status-codes">
+                    <span class="status-code success">200 OK</span>
+                    <span class="status-code error">404 Not Found</span>
+                </div>
+            </div>
+            
+            <!-- Delete Product -->
+            <div class="endpoint">
+                <div>
+                    <span class="method delete">DELETE</span>
+                    <span class="path">/api/products/{product_id}</span>
+                </div>
+                <div class="description">
+                    Delete a product
+                </div>
+                <div class="section-title">Path Parameters</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>product_id</td>
+                        <td>integer</td>
+                        <td>ID of the product to delete</td>
+                    </tr>
+                </table>
+                <div class="section-title">Response</div>
+                <div class="request-response">{
+  "message": "Product deleted"
+}</div>
+                <div class="status-codes">
+                    <span class="status-code success">200 OK</span>
+                    <span class="status-code error">404 Not Found</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="service-section">
+            <div class="service-header">Order Management</div>
+            
+            <!-- Create Order -->
+            <div class="endpoint">
+                <div>
+                    <span class="method post">POST</span>
+                    <span class="path">/api/orders/purchase</span>
+                </div>
+                <div class="description">
+                    Create a new order with multiple products
+                </div>
+                <div class="section-title">Headers</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>User-Id</td>
+                        <td>Yes</td>
+                        <td>ID of the purchasing user</td>
+                    </tr>
+                </table>
+                <div class="section-title">Request Body</div>
+                <div class="request-response">{
+  "products": [
+    {
+      "product_id": 1,
+      "quantity": 2
+    },
+    {
+      "product_id": 3,
+      "quantity": 1
+    }
+  ]
+}</div>
+                <div class="section-title">Response</div>
+                <div class="request-response">{
+  "message": "Order placed",
+  "order_id": 123
+}</div>
+                <div class="status-codes">
+                    <span class="status-code success">201 Created</span>
+                    <span class="status-code error">400 Bad Request</span>
+                    <span class="status-code error">404 Not Found</span>
+                </div>
+            </div>
+            
+            <!-- Get All Orders -->
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="path">/api/orders/all</span>
+                </div>
+                <div class="description">
+                    Get all orders for the current user
+                </div>
+                <div class="section-title">Headers</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>User-Id</td>
+                        <td>Yes</td>
+                        <td>Current user's ID</td>
+                    </tr>
+                </table>
+                <div class="section-title">Response</div>
+                <div class="request-response">[
+  {
+    "id": 123,
+    "user_id": 456,
+    "total_price": 49.98,
+    "order_date": "2023-01-01T12:00:00.000Z",
+    "archived": false,
+    "products": [
+      {
+        "product_id": 1,
+        "quantity": 2,
+        "price": 19.99,
+        "product_name": "Product 1",
+        "product_description": "Description 1",
+        "product_image": "image_url_1"
+      }
+    ]
+  }
+]</div>
+                <div class="status-codes">
+                    <span class="status-code success">200 OK</span>
+                </div>
+            </div>
+            
+            <!-- Get Order by ID -->
+            <div class="endpoint">
+                <div>
+                    <span class="method get">GET</span>
+                    <span class="path">/api/orders/{order_id}</span>
+                </div>
+                <div class="description">
+                    Get order details by ID
+                </div>
+                <div class="section-title">Headers</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>User-Id</td>
+                        <td>Yes</td>
+                        <td>Current user's ID</td>
+                    </tr>
+                </table>
+                <div class="section-title">Path Parameters</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>order_id</td>
+                        <td>integer</td>
+                        <td>ID of the order to retrieve</td>
+                    </tr>
+                </table>
+                <div class="section-title">Response</div>
+                <div class="request-response">{
+  "id": 123,
+  "user_id": 456,
+  "total_price": 49.98,
+  "order_date": "2023-01-01T12:00:00.000Z",
+  "archived": false,
+  "products": [
+    {
+      "product_id": 1,
+      "quantity": 2,
+      "price": 19.99,
+      "product_name": "Product 1",
+      "product_description": "Description 1",
+      "product_image": "image_url_1"
+    }
+  ]
+}</div>
+                <div class="status-codes">
+                    <span class="status-code success">200 OK</span>
+                    <span class="status-code error">404 Not Found</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Product & Order Service API Documentation &copy; 2025</p>
+        </div>
+    </footer>
+</body>
+</html>
